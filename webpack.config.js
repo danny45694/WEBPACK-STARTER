@@ -8,7 +8,18 @@ module.exports = {
     },
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: '[name].js',
+        filename: '[name][contenthash].js',
+        clean: true,
+    },
+    devtool: 's['
+        static: {
+            directory: path.resolve(__dirname, 'dist')
+        },
+        port: 3000,
+        open: true,
+        hot: true,
+        compress: true,
+        historyApiFallback: true,
     },
     module: {
         rules: [
@@ -16,6 +27,16 @@ module.exports = {
                 test:/\.scss$/,
                 use: ['style-loader', 'css-loader', 'sass-loader']
                 ,
+            },
+            {
+                text: /\.js$/,
+                exclude: /node_modules/,
+                use: {
+                    loader: 'bable-loader',
+                    options: {
+                        presets:['@babel/preset-env'],
+                    },
+                },
             },
         ],
     },
